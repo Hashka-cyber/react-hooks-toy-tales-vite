@@ -1,12 +1,10 @@
-function Header({ showForm, setShowForm }) {
+function Header({ onToggleForm }) {
   return (
     <header className="header">
       <h1>Toy Tales</h1>
 
-      <button
-        onClick={() => setShowForm(!showForm)}
-      >
-        {showForm ? "Hide Form" : "Add Toy"}
+      <button onClick={onToggleForm}>
+        Add a Toy
       </button>
     </header>
   );

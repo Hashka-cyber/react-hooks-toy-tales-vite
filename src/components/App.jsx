@@ -1,78 +1,47 @@
 import { useEffect, useState } from "react";
-import Header from "./Header";
-import ToyForm from "./ToyForm";
 import ToyContainer from "./ToyContainer";
+import ToyForm from "./ToyForm";
 
 function App() {
   const [toys, setToys] = useState([]);
   const [showForm, setShowForm] = useState(false);
 
-  // GET REQUEST
   useEffect(() => {
     fetch("http://localhost:3001/toys")
       .then((res) => res.json())
       .then((data) => setToys(data));
   }, []);
 
-  // POST REQUEST
-  function addToy(newToy) {
-    fetch("http://localhost:3001/toys", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newToy),
-    })
-      .then((res) => res.json())
-      .then((toy) => setToys([...toys, toy]));
+  function handleAddToy(newToy) {
+    setToys((prev) => [...prev, newToy]);
   }
 
-  // PATCH REQUEST
-  function handleLikes(updatedToy) {
-    fetch(`http://localhost:3001/toys/${updatedToy.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        likes: updatedToy.likes + 1,
-      }),
-    })
-      .then((res) => res.json())
-      .then((newToy) => {
-        const updatedToys = toys.map((toy) =>
-          toy.id === newToy.id ? newToy : toy
-        );
-
-        setToys(updatedToys);
-      });
+  function handleDeleteToy(id) {
+    setToys((prev) => prev.filter((toy) => toy.id !== id));
   }
 
-  // DELETE REQUEST
-  function handleDelete(id) {
-    fetch(`http://localhost:3001/toys/${id}`, {
-      method: "DELETE",
-    }).then(() => {
-      const filteredToys = toys.filter((toy) => toy.id !== id);
-      setToys(filteredToys);
-    });
+  function handleLikeToy(updatedToy) {
+    setToys((prev) =>
+      prev.map((toy) => (toy.id === updatedToy.id ? updatedToy : toy))
+    );
   }
 
   return (
     <div className="App">
-      <Header
-        showForm={showForm}
-        setShowForm={setShowForm}
-      />
+      <header className="header">
+        <h1>Toy Tales</h1>
 
-      {showForm ? (
-        <ToyForm addToy={addToy} />
-      ) : null}
+        <button onClick={() => setShowForm(!showForm)}>
+          Add a Toy
+        </button>
+      </header>
+
+      {showForm && <ToyForm onAddToy={handleAddToy} />}
 
       <ToyContainer
         toys={toys}
-        handleLikes={handleLikes}
-        handleDelete={handleDelete}
+        onDeleteToy={handleDeleteToy}
+        onLikeToy={handleLikeToy}
       />
     </div>
   );
