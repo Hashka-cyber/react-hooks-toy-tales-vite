@@ -2,15 +2,15 @@
   "toys": [
     {
       "id": 1,
-      "name": "Teddy Bear",
-      "image": "https://i.imgur.com/ZANVnHE.jpeg",
-      "likes": 5
+      "name": "Woody",
+      "image": "http://www.pngmart.com/files/3/Toy-Story-Woody-PNG-Photos.png",
+      "likes": 8
     },
     {
       "id": 2,
-      "name": "Toy Truck",
-      "image": "https://i.imgur.com/iL43Miv.jpeg",
-      "likes": 3
+      "name": "Buzz Lightyear",
+      "image": "http://www.pngmart.com/files/6/Buzz-Lightyear-PNG-Transparent-Picture.png",
+      "likes": 14
     }
   ]
 }

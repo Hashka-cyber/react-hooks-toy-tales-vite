@@ -1,18 +1,16 @@
 import ToyCard from "./ToyCard";
 
-function ToyContainer({ toys, onDeleteToy, onLikeToy }) {
+export default function ToyContainer({ toys, onLike, onDelete }) {
   return (
-    <div className="toy-container">
+    <div id="toy-collection">
       {toys.map((toy) => (
         <ToyCard
           key={toy.id}
           toy={toy}
-          onDeleteToy={onDeleteToy}
-          onLikeToy={onLikeToy}
+          onLike={onLike}
+          onDelete={onDelete}
         />
       ))}
     </div>
   );
 }
-
-export default ToyContainer;

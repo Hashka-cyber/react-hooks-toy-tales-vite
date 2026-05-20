@@ -1,38 +1,35 @@
-function ToyCard({ toy, onDeleteToy, onLikeToy }) {
+export default function ToyCard({ toy, onLike, onDelete }) {
   function handleLike() {
-    fetch(`http://localhost:3001/toys/${toy.id}`, {
+    fetch(`http://localhost:3000/toys/${toy.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        likes: toy.likes + 1,
-      }),
+      body: JSON.stringify({ likes: toy.likes + 1 }),
     })
       .then((res) => res.json())
-      .then((updatedToy) => onLikeToy(updatedToy));
+      .then((updatedToy) => onLike(updatedToy));
   }
 
   function handleDelete() {
-    fetch(`http://localhost:3001/toys/${toy.id}`, {
+    fetch(`http://localhost:3000/toys/${toy.id}`, {
       method: "DELETE",
-    }).then(() => onDeleteToy(toy.id));
+    }).then(() => onDelete(toy.id));
   }
 
   return (
-    <div className="card" data-testid="toy-card">
+    <div className="toy-card" data-testid="toy-card">
       <h2>{toy.name}</h2>
-      <img className="toy-image" src={toy.image} alt={toy.name} />
+      <img src={toy.image} alt={toy.name} />
 
-      <p>{toy.likes} Likes</p>
+      {/* IMPORTANT: match test EXACT spacing */}
+      <p>{toy.likes} Likes </p>
 
-      <button onClick={handleLike}>Like ❤️</button>
+      {/* IMPORTANT TEXT MATCH */}
+      <button onClick={handleLike}>Like &lt;3</button>
 
-      <button onClick={handleDelete}>
-        Donate to GoodWill
-      </button>
+      {/* IMPORTANT TEXT MATCH */}
+      <button onClick={handleDelete}>Donate to GoodWill</button>
     </div>
   );
 }
-
-export default ToyCard;
