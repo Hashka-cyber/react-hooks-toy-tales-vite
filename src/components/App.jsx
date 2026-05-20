@@ -1,9 +1,15 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 
 import Header from "./Header";
 import ToyForm from "./ToyForm";
+=======
+import { useEffect, useState } from "react";
+>>>>>>> 5d4c6ad673fc3cadfa9d00c722e1501fb45b25d1
 import ToyContainer from "./ToyContainer";
+import ToyForm from "./ToyForm";
 
+<<<<<<< HEAD
 function App() {
   const [showForm, setShowForm] = useState(false);
   const [toys, setToys] = useState([]);
@@ -14,9 +20,30 @@ function App() {
       .then((data) => setToys(data))
       .catch(() => setToys([]));
   }, []);
+=======
+export default function App() {
+  const [toys, setToys] = useState([]);
+  const [showForm, setShowForm] = useState(true);
+>>>>>>> 5d4c6ad673fc3cadfa9d00c722e1501fb45b25d1
 
-  function handleClick() {
-    setShowForm((showForm) => !showForm);
+  useEffect(() => {
+    fetch("http://localhost:3000/toys")
+      .then((res) => res.json())
+      .then((data) => setToys(data));
+  }, []);
+
+  function addToy(newToy) {
+    setToys((prev) => [...prev, newToy]);
+  }
+
+  function updateToy(updatedToy) {
+    setToys((prev) =>
+      prev.map((toy) => (toy.id === updatedToy.id ? updatedToy : toy))
+    );
+  }
+
+  function deleteToy(id) {
+    setToys((prev) => prev.filter((toy) => toy.id !== id));
   }
 
   function handleAddToy(toyData) {
@@ -52,6 +79,7 @@ function App() {
   }
 
   return (
+<<<<<<< HEAD
     <>
       <Header />
       {showForm ? <ToyForm onAddToy={handleAddToy} /> : null}
@@ -62,5 +90,21 @@ function App() {
     </>
   );
 }
+=======
+    <div className="App">
+      <header className="header">
+        <h1>Toy Tales</h1>
+        <button onClick={() => setShowForm((s) => !s)}>Add a Toy</button>
+      </header>
+>>>>>>> 5d4c6ad673fc3cadfa9d00c722e1501fb45b25d1
 
-export default App;
+      {showForm && <ToyForm addToy={addToy} />}
+
+      <ToyContainer
+        toys={toys}
+        onLike={updateToy}
+        onDelete={deleteToy}
+      />
+    </div>
+  );
+}
