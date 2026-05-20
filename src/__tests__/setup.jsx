@@ -3,6 +3,21 @@ import { cleanup } from '@testing-library/react'
 import '@testing-library/jest-dom/vitest'
 import fetch from 'node-fetch';
 
+if (typeof HTMLFormElement !== 'undefined' && !HTMLFormElement.prototype.requestSubmit) {
+  HTMLFormElement.prototype.requestSubmit = function (submitter) {
+    if (submitter) {
+      return submitter.click();
+    }
+
+    const event = new Event('submit', {
+      bubbles: true,
+      cancelable: true,
+    });
+
+    return this.dispatchEvent(event);
+  };
+}
+
 global.fetch = fetch
 
 global.baseToys = [
